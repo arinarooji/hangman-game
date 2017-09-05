@@ -8,9 +8,8 @@
 	<!--Bootstrap-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 	<!--CSS-->
-	<!--JavaScript-->
-	<script type="text/javascript" src="assets/javascript/game.js"></script>
-
+	<!--JavaScript
+	<script type="text/javascript" src="assets/javascript/game.js"></script>-->
 </head>
 <body>
 	<!--Wrap entire page-->
@@ -40,13 +39,14 @@
 				<section class="col-6">
 					<!--Game elements here-->
 					<h3>PRESS ANY KEY TO START!</h3>
-					<h3>WINS:</h3> <!--Updates with win count-->
+					<h3 id="winCount">Wins here</h3> <!--Updates with win count-->
 					<h3>CURRENT WORD</h3>
-					<br> <!--Underlines for word length, updates according to letter place-->
+					<h3 id="something">Word Here</h3> <!--Underlines for word length, updates according to letter place-->
 					<h3>NUMBER OF GUESSES REMAINING</h3>
-					<h3>Guess Number Here</h3><!--Number dynamically changes-->
+					<h3 id="guessCount">Guess Number Here</h3><!--Number dynamically changes-->
 					<h3>LETTERS ALREADY GUESSED</h3>
-					<h3>Letters Here</h3><!--No duplicate letters-->
+					
+					<h3 id="letters">Letters Here</h3><!--No duplicate letters-->
 				</section>
 			</div>
 		</div>
@@ -62,6 +62,30 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+
+	<!--JavaScript here, will be transferred to game.js upon completion-->
+    <script type="text/javascript">
+    	var words = ["Pizza", "Spaghetti", "Lasagna", "Ravioli"];
+		var currentWord = Math.floor(words.length * Math.random());
+		var lettersUsed = [];
+		var guesses = 15;
+		var score = 0;
+
+		var element = document.getElementById("something");
+		var guessCount = document.getElementById("guessCount");
+		var winCount = document.getElementById("winCount");
+		var letterCount = document.getElementById("letters");
+
+		element.innerHTML = words[currentWord];
+		guessCount.innerHTML = guesses;
+		winCount.innerHTML = "Wins: " + score;
+		letterCount.innerHTML = lettersUsed;
+
+		// If user pressed NEW LETTER key, store pressed LETTER key in lettersUsed[] (.push)
+		// If LETTER key within current word, place it within word at appropiate index of string's characters
+
+    </script>
 
 </body>
 </html>
