@@ -39,12 +39,13 @@
 				<section class="col-6">
 					<!--Game elements here-->
 					<h3>PRESS ANY KEY TO START!</h3>
-					<h3 id="winCount">Wins here</h3> <!--Updates with win count-->
+					<h3 id="winCount">Wins here</h3>
+					<h3 id="lossCount">Losses here</h3> <!--Updates with win count-->
 					<h3>CURRENT WORD</h3>
 					<h3 id="wordHere">Word Here</h3> <!--Underlines for word length, updates according to letter place-->
-					<h3>NUMBER OF GUESSES REMAINING</h3>
+					<h3>GUESSES REMAINING</h3>
 					<h3 id="guessCount">Guess Number Here</h3><!--Number dynamically changes-->
-					<h3>LETTERS ALREADY GUESSED</h3>
+					<h3>LETTERS USED</h3>
 					<h3 id="letters"></h3><!--No duplicate letters
 					<input type="text" onkeypress="keyPress()">-->
 				</section>
@@ -66,56 +67,80 @@
 
 	<!--JavaScript here, will be transferred to game.js upon completion-->
     <script type="text/javascript">
-
-    	var wordBank = ["PIZZA", "SPAGHETTI", "LASAGNA", "RAVIOLI"];
-		var currentWord = Math.floor(wordBank.length * Math.random());
-		var hiddenWord = wordBank[currentWord].replace(/[A-Z]/g, '_');
-		var lettersUsed = [];
-		var guesses = 15;
 		var score = 0;
-		var splitOnce = false;
-		//Reference to the headers in index.html
-		var element = document.getElementById("wordHere");
-		var guessCount = document.getElementById("guessCount");
-		var winCount = document.getElementById("winCount");
-		//Assign variables to the headers
-		element.innerHTML = hiddenWord;
-		guessCount.innerHTML = guesses;
-		winCount.innerHTML = "Wins: " + score;
-		
-		var theWord = wordBank[currentWord]; //Simple reference to the word
-		var revealWord = hiddenWord; //mutable string?
+		var losses = 0;
 
-
-		document.onkeyup = function(event){
-			var letter = event.key;
-			var capitalLetter = letter.toUpperCase();
-
-			//If letter not used before
-			if(!lettersUsed.includes(capitalLetter)){
-				//Push letter to this array
-				lettersUsed.push(capitalLetter);
-				//Display array to webpage
-				document.getElementById("letters").innerHTML = lettersUsed;
-			}
+    	function newGame(){
+	    	var wordBank = ["PIZZA", "SPAGHETTI", "LASAGNA", "RAVIOLI"];
+			var currentWord = Math.floor(wordBank.length * Math.random());
+			var hiddenWord = wordBank[currentWord].replace(/[A-Z]/g, '_');
+			var lettersUsed = [];
+			var guesses = 15;
+			//Reference to the headers in index.html
+			var element = document.getElementById("wordHere");
+			var guessCount = document.getElementById("guessCount");
+			var winCount = document.getElementById("winCount");
+			var lossCount = document.getElementById("lossCount");
+			var letterDisplay = document.getElementById("letters")
+			//Assign variables to the headers
+			element.innerHTML = hiddenWord;
+			guessCount.innerHTML = guesses;
+			winCount.innerHTML = "Wins: " + score;
+			lossCount.innerHTML = "Losses: " + losses;
+			letterDisplay.innerHTML = lettersUsed;
 			
-			//If letter IS in theWord
-			//Note: use .indexOf() in place of .includes() for browser compatibility
-			if(theWord.includes(capitalLetter)){
-				revealWord = hiddenWord.split('');
-				//Iterate through theWord. Find the index of all occurrences.
-				for(var i = 0; i < theWord.length; i++){
-					//If capitalLetter identical to char in theWord
-					if(theWord[i] === capitalLetter){
-						//Replace revealWord's underscore at that index with capitalLetter
-						revealWord[i] = capitalLetter;
-						hiddenWord = revealWord.join(''); //Becomes string
-						element.innerHTML = hiddenWord; //Updates page
+			var theWord = wordBank[currentWord]; //Simple reference to the word
+			var revealWord = hiddenWord; //Will be split into array, changed, then joined
+
+
+			//Check if user presses/releases a key
+			document.onkeyup = function(event){
+				var letter = event.key;
+				var capitalLetter = letter.toUpperCase();
+
+				//If letter not used before
+				if (!lettersUsed.includes(capitalLetter) && guesses > 0){
+					//Push to this array
+					lettersUsed.push(capitalLetter);
+					letterDisplay.innerHTML = lettersUsed; //Update the header/innerHTML
+					
+					//If letter is in theWord, Note: Use .indexOf()
+					if (theWord.includes(capitalLetter)){
+						//Splits string to array, is now a mutable string
+						revealWord = hiddenWord.split('');
+						//Iterate through theWord. Find the index of all occurrences.
+						for (var i = 0; i < theWord.length; i++){
+							//If capitalLetter identical to char in theWord
+							if (theWord[i] === capitalLetter){
+								//Replace revealWord's underscore at that index w/ capitalLetter
+								revealWord[i] = capitalLetter;
+								//Becomes string form of that array/mutable string
+								hiddenWord = revealWord.join('');
+								//Update page with new string
+								element.innerHTML = hiddenWord; 
+							}
+							//If hiddenWord completed with capitalLetter
+							if (!hiddenWord.includes('_')){
+								score += 1;
+								winCount.innerHTML = "Wins: " + score;
+								newGame();
+							}
+						}
+					}
+					//If it is not in array, and not in theWord
+					else {
+						guesses -= 1;
+						guessCount.innerHTML = guesses;
+						if (guesses < 1){
+							losses += 1;
+							lossCount.innerHTML = "Losses: " + losses;
+							newGame();
+						}
 					}
 				}
 			}
 		}
-
+		newGame();
 
     </script>
 
