@@ -45,8 +45,8 @@
 					<h3>NUMBER OF GUESSES REMAINING</h3>
 					<h3 id="guessCount">Guess Number Here</h3><!--Number dynamically changes-->
 					<h3>LETTERS ALREADY GUESSED</h3>
-					
-					<h3 id="letters">Letters Here</h3><!--No duplicate letters-->
+					<h3 id="letters"></h3><!--No duplicate letters
+					<input type="text" onkeypress="keyPress()">-->
 				</section>
 			</div>
 		</div>
@@ -66,7 +66,7 @@
 
 	<!--JavaScript here, will be transferred to game.js upon completion-->
     <script type="text/javascript">
-    	var words = ["Pizza", "Spaghetti", "Lasagna", "Ravioli"];
+    	var words = ["PIZZA", "SPAGHETTI", "LASAGNA", "RAVIOLI"];
 		var currentWord = Math.floor(words.length * Math.random());
 		var lettersUsed = [];
 		var guesses = 15;
@@ -75,15 +75,33 @@
 		var element = document.getElementById("something");
 		var guessCount = document.getElementById("guessCount");
 		var winCount = document.getElementById("winCount");
-		var letterCount = document.getElementById("letters");
+		var hideWord = words[currentWord].replace(/[A-Z]/g, '_ ');
 
-		element.innerHTML = words[currentWord];
+		element.innerHTML = hideWord;
 		guessCount.innerHTML = guesses;
 		winCount.innerHTML = "Wins: " + score;
-		letterCount.innerHTML = lettersUsed;
 
-		// If user pressed NEW LETTER key, store pressed LETTER key in lettersUsed[] (.push)
 		// If LETTER key within current word, place it within word at appropiate index of string's characters
+		//.split() to access letters in array element
+
+		document.onkeyup = function(event){
+			var letter = event.key;
+
+			//If letter not used, push to array
+			if(!lettersUsed.includes(letter)){
+				lettersUsed.push(letter.toUpperCase());
+				document.getElementById("letters").innerHTML = lettersUsed;
+			}
+			
+			//If words[currentWord] contains letter, find index for that letter.
+			//This returns first occurrence, need all occurrences
+			if(words[currentWord].includes(letter.toUpperCase())){
+				alert(words[currentWord].indexOf(letter.toUpperCase()));
+			}
+
+			//Insert letter at hideWord index
+		}
+
 
     </script>
 
