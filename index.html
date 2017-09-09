@@ -73,8 +73,10 @@
 	<script type="text/javascript">
 		var score = 0;
 		var losses = 0;
-				
+			
+		//Sound effects	
 		var music = new Audio('assets/audio/audioAsset.mp3');
+		var correctSound = new Audio('assets/audio/winSound.mp3');
 		music.play();
 
 		function newGame(){
@@ -135,6 +137,7 @@
 						}
 						//If hiddenWord matches theWord
 						if (hiddenWord === theWord){
+							correctSound.play();
 							score ++;
 							winCount.innerHTML = "Wins: " + score;
 							alert(hiddenWord + "!" + " Nice!");
