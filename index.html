@@ -3,163 +3,72 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Hangman</title>
+	<title>Hangman: Gamer Edition</title>
 
 	<!--Bootstrap-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-	<!--Bootswatch-->
-	<link rel="stylesheet" href="https://bootswatch.com/cyborg/bootstrap.min.css" integrity="" crossorigin="anonymous">
-	<!--Google Font-->
-	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+	<!--Google Fonts-->
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Titillium+Web" rel="stylesheet">
 	<!--CSS-->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<!--JavaScript
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="assets/javascript/game.js"></script>-->
 </head>
 <body>
 	<!--Wrap entire page-->
 	<div class="wrap">
 
-
-		<!--Begin title section-->
+		<!--Title area-->
 		<div class="container">
 			<div class="row">
-				<main class="col-12 col-centered">
-					<h1>HANGMAN</h1> <!--Theme?-->
+				<main class="col-12 text-center">
+					<h1 class="fontStyle1">HANGMAN</h1>
 					<h1 id="edition">GAMER EDITION</h1>
-					<img src=""> <!--Cool image-->
 				</main>
 			</div>
 		</div>
-		<!--End title section-->
 
-
-		<!--Begin main sections-->
+		<!--Gameplay area-->
 		<div class="container">
 			<div class="row">
-				<section class="col-6">
-					<!--Picture of content-->
-					<h3>CHARACTER NAME?</h3>
-					<img id="pictureHere" src="" width="300">
-				</section>
 
-				<section class="col-6">
-					<!--Game elements here-->
-					<h3>PRESS ANY KEY TO START!</h3>
+				<!-- Character column -->
+				<div class="col-xs-12 col-md-6">
+					<h3 class="fontStyle1">CHARACTER NAME?</h3>
+					<img id="character" src="" width="300">
+				</div>
+
+				<!--Guessing column (input)-->
+				<div class="col-xs-12 col-md-6 fontStyle1">
+					<h3>PRESS ANY KEY TO PLAY!</h3>
+					<!--User scores-->
 					<h3 id="winCount">Wins here</h3>
-					<h3 id="lossCount">Losses here</h3> <!--Updates with win count-->
+					<h3 id="lossCount">Losses here</h3>
+					<br>
+					<!--Word progression-->
 					<h3>CURRENT WORD</h3>
-					<h3 id="wordHere">Word Here</h3> <!--Underlines for word length, updates according to letter place-->
+					<h3 id="wordHere"></h3>
+					<br>
+					<!--Guess count tracker-->
 					<h3>GUESSES REMAINING</h3>
-					<h3 id="guessCount">Guess Number Here</h3><!--Number dynamically changes-->
+					<h3 id="guessCount"></h3>
+					<!--Letters guessed-->
 					<h3>LETTERS USED</h3>
-					<h3 id="letters"></h3><!--No duplicate letters
-					<input type="text" onkeypress="keyPress()">-->
-				</section>
+					<h3 id="letters"></h3>
+				</div>
 			</div>
 		</div>
-		<!--End main sections-->
 
-	</div>
 	<!--End wrapper-->
+	</div>
 
 	<!--jQuery first, then Popper.js, then Bootstrap JS-->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 	
-
-	<script type="text/javascript">
-		var score = 0;
-		var losses = 0;
-			
-		//Sound effects	
-		var music = new Audio('assets/audio/audioAsset.mp3');
-		var correctSound = new Audio('assets/audio/winSound.mp3');
-		music.play();
-
-		function newGame(){
-
-			var wordBank = ["PACMAN", "XENOMORPH", "SUBZERO", "SAMUSARAN", "SCORPION", "ZELDA", "DONKEYKONG"];
-			var currentWord = Math.floor(wordBank.length * Math.random());
-			var currentPicture = ["assets/images/pacman.jpg", "assets/images/xenomorph.png", "assets/images/subzero.png", "assets/images/samusaran.jpg", "assets/images/scorpion.jpg", "assets/images/zelda.jpg", "assets/images/donkeykong.jpg"];
-			var hiddenWord = wordBank[currentWord].replace(/[A-Z]/g, '_');
-			var lettersUsed = [];
-			var guesses = 15;
-
-			//Reference to the headers in index.html
-			var element = document.getElementById("wordHere");
-			var guessCount = document.getElementById("guessCount");
-			var winCount = document.getElementById("winCount");
-			var lossCount = document.getElementById("lossCount");
-			var letterDisplay = document.getElementById("letters");
-			var pictureDisplay = document.getElementById("pictureHere");
-
-			//Assign variables to the headers
-			element.innerHTML = hiddenWord;
-			guessCount.innerHTML = guesses;
-			winCount.innerHTML = "Wins: " + score;
-			lossCount.innerHTML = "Losses: " + losses;
-			letterDisplay.innerHTML = lettersUsed;
-			pictureDisplay.src = currentPicture[currentWord];
-					
-			var theWord = wordBank[currentWord]; //Simple reference to the word
-			var revealWord = hiddenWord; //Will be split into array, changed, then joined
-
-
-			//Check if user presses/releases a key
-			document.onkeyup = function(event){
-				var letter = event.key;
-				var capitalLetter = letter.toUpperCase();
-
-				//If letter not used before
-				if (!lettersUsed.includes(capitalLetter) && guesses > 0){
-					//Push to this array
-					lettersUsed.push(capitalLetter);
-					letterDisplay.innerHTML = lettersUsed; //Update the header/innerHTML
-							
-					//If letter is in theWord, Note: Use .indexOf()
-					if (theWord.includes(capitalLetter)){
-						//Splits string to array, is now a mutable string
-						revealWord = hiddenWord.split('');
-						//Iterate through theWord. Find the index of all occurrences.
-						for (var i = 0; i < theWord.length; i++){
-							//If capitalLetter identical to char in theWord
-							if (theWord[i] === capitalLetter){
-								//Replace revealWord's underscore at that index w/ capitalLetter
-								revealWord[i] = capitalLetter;
-								//Becomes string form of that array/mutable string
-								hiddenWord = revealWord.join('');
-								//Update page with new string
-								element.innerHTML = hiddenWord; 
-							}
-						}
-						//If hiddenWord matches theWord
-						if (hiddenWord === theWord){
-							correctSound.play();
-							score ++;
-							winCount.innerHTML = "Wins: " + score;
-							alert(hiddenWord + "!" + " Nice!");
-							newGame();
-						}
-					}
-					//If it is not in array, and not in theWord
-					else {
-						guesses -= 1;
-						guessCount.innerHTML = guesses;
-						if (guesses < 1){
-							losses ++;
-							lossCount.innerHTML = "Losses: " + losses;
-							alert("Don't get hung up on it, you'll do better next time!");
-							newGame();
-						}
-					}
-				}
-			}
-		}
-		newGame();
-	</script>
+	<!-- External JavaScript -->
+	<script src="assets/javascript/game.js"></script>
 
 	</body>
 </html>

@@ -1,25 +1,18 @@
-body {
-	background: url("../images/background.png");
-	background-repeat: repeat;
-}
-.col-12 {
-	text-align: center;
-}
-#edition {
-	font-family: 'Press Start 2P', cursive;
-	color: #00dd2f;
-	animation: editionAnim 3s infinite;
-}
-#pictureHere{
-	border: 4px solid;
-	border-color: #00dd2f;
-}
-#wordHere {
-	letter-spacing: 1.5rem;
-}
+/* Page background */
+body { background: url("../images/background.png"); background-repeat: repeat; }
+
+/* Fonts */
+.fontStyle1 { font-family: 'Titillium Web', sans-serif; color: white; }
+#edition 	{ font-family: 'Press Start 2P', cursive; 	color: #00dd2f; animation: editionAnim 3s infinite; }
+
+/* Image border/color */
+#character 	{ border: 4px solid; border-color: #00dd2f; }
+
+/* Word progression letter spacing */
+#wordHere   { letter-spacing: 1.5rem; }
 
 @keyframes editionAnim {
-	0% {color: #00dd2f;}
-	50% {color: #d8ff00;}
-	100% {color: #00dd2f;}
+	0% 	 { color: #00dd2f; }
+	50%	 { color: #d8ff00; }
+	100% { color: #00dd2f; }
 }
